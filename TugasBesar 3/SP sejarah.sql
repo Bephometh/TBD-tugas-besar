@@ -31,7 +31,7 @@ AS
 	FROM
 		Hasil
 	WHERE
-		Hasil.idCheckUp = @id
+		Hasil.idPasien = @id
 
 	--Cursor untuk mendapatkan sejarah penyakit pasien
 	DECLARE sejarah CURSOR
@@ -48,7 +48,11 @@ AS
 	BEGIN
 		
 		--Memasukan ke table sejarah penyakit
-		EXEC Diag @idCheckUp
+		INSERT INTO #historyPenyaki
+		SELECT DISTINCT
+			*
+		FROM
+			dbo.diagFunct(@idCheckUp)
 
 		FETCH NEXT FROM sejarah INTO @idCheckUp
 
@@ -58,7 +62,7 @@ AS
 	DEALLOCATE sejarah
 
 	--Menampilkan sejarah penyakit
-	SELECT
+	SELECT DISTINCT
 		#historyPenyaki.namaPenyakit
 	FROM
 		#historyPenyaki
