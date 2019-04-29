@@ -1,4 +1,4 @@
-ALTER PROCEDURE insRoundRobinGejala
+CREATE PROCEDURE insRoundRobinGejala
 	@idCheckUp INT,
 	@idGejala INT
 AS
@@ -17,7 +17,7 @@ AS
 	--Memasukkan data ke Table
 	UPDATE Record
 	SET idCheckUp = @idCheckUp, idGejala = @idGejala
-	WHERE Nomor = @baris
+	WHERE Baris = @baris
 
 	--Update baris pada config
 	IF(@baris = 20)
