@@ -20,7 +20,7 @@ AS
 	WHERE Baris = @baris
 
 	--Update baris pada config
-	IF(@baris = 20)
+	IF(@baris = 60)
 	BEGIN
 		SET @baris = 1
 	END

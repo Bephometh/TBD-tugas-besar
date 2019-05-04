@@ -1,4 +1,4 @@
-ALTER PROCEDURE Diag
+CREATE PROCEDURE Diag
 	@idCheckUp INT
 AS
 	
