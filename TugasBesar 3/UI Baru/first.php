@@ -5,8 +5,16 @@
     // return;
     session_start();
 ?>
-    <title>Diagnosis 1</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <head>
+        <title>Diagnosis 1</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    
 
     <body>
         <div class="w3-container w3-display-container w3-black w3-padding">
@@ -30,13 +38,15 @@
                         <p>
                         <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonDaftar" value="Daftar">
                         <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonLanjut" value="Lanjut">
-                   <?php
+                        <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonLanjut" value="Cek Sejarah" />
+
+                            <?php
 
                          if(isset($_GET['action'])){
                             if($_GET['action'] == 'Daftar'){
                                 //insert datanya
                                 if(empty($_GET['namaPasien'])){
-                                    echo"Masukkan nama lengkap";    
+                                    echo"Masukkan nama lengkap";
                                 }
                                 else{
                                      $namaBaru = $_GET['namaPasien'];
@@ -46,12 +56,12 @@
                                     if($try){
                                         $check_row = sqlsrv_has_rows($try);
                                         if($check_row === true){
-                                            echo 'Sudah terdaftar';    
+                                            echo 'Sudah terdaftar';
                                         }
                                         else{
                                              $insertPasien = "INSERT INTO Pasien (namaPasien) VALUES ('$namaBaru')";
                                              $in = sqlsrv_query($conn,$insertPasien);
-                                             echo"Berhasil Terdaftar";    
+                                             echo"Berhasil Terdaftar";
                                         }
                                     }
                                 }
@@ -66,22 +76,45 @@
                                     $sql ="SELECT namaPasien FROM Pasien WHERE namaPasien = '$name'";
                                     //echo $sql;
                                     $try = sqlsrv_query($conn,$sql);
-                                    
+
                                      if($try){
                                         $check_row = sqlsrv_has_rows($try);
                                         if($check_row === true){
                                             $_SESSION['namaPasien'] = $name;
-                                            header("Location:Second.php"); 
+                                            header("Location:Second.php");
                                         }
                                         else{
-                                             echo"Belum Terdaftar";    
+                                             echo"Belum Terdaftar";
                                         }
                                     }
                                 }
                             }
+                            else if($_GET['action'] == 'Cek Sejarah'){
+                                $name = $_GET['namaPasien'];
+
+                                //Mencari sejarah penyakit pasien
+                                $sql_sejarah = "exec Sejarah '$name'";
+                                $query_sejarah = sqlsrv_query($conn, $sql_sejarah);
+                                if( $query_sejarah === false) {
+                                    echo "This aint it chief";
+                                }
+                                echo "<table>";
+                                    echo "<tr>
+                                               <th> Penyakit </th>
+                                         </tr>";
+                                while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_NUMERIC)){
+                                    echo "<tr>";
+                                    echo '<td>'.$penyakit[0].'</td>';
+                                    echo "</tr>";
+                                }
+
+                                echo "</table>";
+
+
+                            }
                          }
-    
-                     ?> 
+
+                            ?> 
                    
                     </div>
                     

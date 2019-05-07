@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE Sejarah
 	@pasien VARCHAR (128)
 AS
-	
+	SET NOCOUNT ON
 	DECLARE
 		@id INT, --id dari pasien
 		@idCheckUp INT
