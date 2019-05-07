@@ -1,4 +1,4 @@
-CREATE PROCEDURE insRoundRobinGejala
+ALTER PROCEDURE insRoundRobinGejala
 	@idCheckUp INT,
 	@idGejala INT
 AS

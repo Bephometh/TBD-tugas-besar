@@ -46,21 +46,23 @@
         <input type="submit" name="action" value="Check" />
         <input type="submit" name="action" value="Daftar"/>
         <?php
+
+        if(isset($_GET['action'])){
             if($_GET['action'] == 'Check'){
                 if(isset($_GET['nama'])){
                     $name = $_GET["nama"];
-                
+
                     $sql ="SELECT namaPasien FROM Pasien WHERE namaPasien = '$name'";
                     //echo $sql;
                     $try = sqlsrv_query($conn,$sql);
-                    
+
                     while($row = sqlsrv_fetch_array($try,SQLSRV_FETCH_ASSOC)){
                         if($row['namaPasien'] != NULL){
                             echo 'sudah terdaftar';
                         }
                         else if($row['namaPasien'] == NULL){
-                             echo 'belum terdaftar';
-                         }
+                            echo 'belum terdaftar';
+                        }
                     }
                 }
             }
@@ -70,7 +72,9 @@
                 $in = sqlsrv_query($conn,$insertPasien);
                 echo 'Berharsil terdaftar';
             }
-                
+        }
+
+
         ?>
     </div>
 </body>

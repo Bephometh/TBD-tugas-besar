@@ -1,7 +1,7 @@
-CREATE PROCEDURE Diag
+ALTER PROCEDURE Diag
 	@idCheckUp INT
 AS
-	
+	SET NOCOUNT ON
 	DECLARE
 	@idPenyakit INT, --memeriksa penyakit yang dialami
 	@minGejala INT, --minimal gejala penyakit
@@ -68,6 +68,7 @@ AS
 			Penyakit.idPenyakit = @idPenyakit
 		
 		--Menghitung gejala yang dialami pasien
+		
 		SELECT
 			@gejalaDialami = COUNT(#gejala.id)
 		FROM
@@ -101,7 +102,7 @@ AS
 	DEALLOCATE cariPenyakits
 
 
-
+	SET NOCOUNT ON
 	SELECT DISTINCT
 		#diagnosis.namaPenyakit
 	FROM
