@@ -105,6 +105,7 @@
                                 while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_NUMERIC)){
                                     echo "<tr>";
                                     echo '<td>'.$penyakit[0].'</td>';
+                                    echo '<td>'.date_format($penyakit[1], 'Y-m-d').'</td>'; 
                                     echo "</tr>";
                                 }
 

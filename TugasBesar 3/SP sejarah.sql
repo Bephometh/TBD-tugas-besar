@@ -1,18 +1,22 @@
-﻿CREATE PROCEDURE Sejarah
+﻿ALTER PROCEDURE Sejarah
 	@pasien VARCHAR (128)
 AS
 	SET NOCOUNT ON
 	DECLARE
 		@id INT, --id dari pasien
-		@idCheckUp INT
+		@idCheckUp INT,
+		@tanggal DATE,
+		@namaPenyakit VARCHAR(100)
 
 	--Table CheckUp dari pasien
 	CREATE TABLE #checkUpHistory (
-		idCheckUp INT
+		idCheckUp INT,
+		tanggal DATE
 	)
 	
 	--Table Penyakit pasien
-	CREATE TABLE #historyPenyaki(
+	CREATE TABLE #historyPenyakit(
+		Tanggal DATE,
 		namaPenyakit VARCHAR (125)
 	)
 
@@ -27,9 +31,9 @@ AS
 	--Mencari Sejarah CheckUp Pasien
 	INSERT INTO #checkUpHistory
 	SELECT
-		Hasil.idCheckUp
+		Hasil.idCheckUp, CONVERT(Date, CheckUp.Tanggal) 
 	FROM
-		Hasil
+		Hasil JOIN CheckUp  on Hasil.idCheckUp = CheckUp.idCheckUp
 	WHERE
 		Hasil.idPasien = @id
 
@@ -48,13 +52,28 @@ AS
 	BEGIN
 		
 		--Memasukan ke table sejarah penyakit
-		INSERT INTO #historyPenyaki
+		--INSERT INTO #historyPenyakit 
 		SELECT DISTINCT
-			*
+			@namaPenyakit = namaPenyakit
 		FROM
 			dbo.diagFunct(@idCheckUp)
 
+		INSERT INTO #historyPenyakit (namaPenyakit)VALUES (@namaPenyakit)
+		
+		
+		SELECT
+			@tanggal = tanggal
+		FROM
+			#checkUpHistory 
+		WHERE
+			idCheckUp = @idCheckUp
+
+		UPDATE #historyPenyakit
+		SET Tanggal = @tanggal
+		WHERE namaPenyakit = @namaPenyakit
+
 		FETCH NEXT FROM sejarah INTO @idCheckUp
+
 
 	END
 
@@ -63,9 +82,10 @@ AS
 
 	--Menampilkan sejarah penyakit
 	SELECT DISTINCT
-		#historyPenyaki.namaPenyakit
+		Tanggal, #historyPenyakit.namaPenyakit 
 	FROM
-		#historyPenyaki
+		#historyPenyakit
+	
 			
 
 

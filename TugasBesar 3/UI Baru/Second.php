@@ -37,6 +37,7 @@
                                 $number = sqlsrv_fetch_array($num_of_gejala,  SQLSRV_FETCH_NUMERIC);
                     
                                 //Mempartisi jumlah gejala menjadi 3
+                                $part = $number[0];
                                 $part1 =  floor($number[0] / 3);
                                 $part2 = $number[0] - ($part1+1);
                                 $part3 = $number[0] ;
@@ -65,19 +66,18 @@
                         <select name="gej1" id="gj1" style="width:60% ">
                             <?php
                                  //Populate select
-                                for($j = 0; $j < $part1; $j++){
+                                for($j = 0; $j < 31; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 }
                               
                             ?>
-                          
                         </select>
                         <p>
                         Gejala 2 :
                         <select name="gej2" id="gj2" style="width:60% ">
                              <?php
                                 //Populate select
-                                for($j = $part1+1; $j < $part2; $j++){
+                                for($j = 0; $j < 31; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 }
                             ?>
@@ -87,7 +87,7 @@
                         <select name="gej3" id="gj3" style="width:60% ">
                             <?php
                                 //Populate select
-                                for($j = $part2+1; $j < $part3; $j++){
+                                for($j = 0; $j < 31; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 } 
                             ?>
@@ -97,12 +97,13 @@
                             <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" value="Kembali">
                             <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" value="Cek">
                         </p>
-                        <?php 
+ <?php 
                             if(isset($_GET['action'])){
         
                                 //Go back one page
                                 if($_GET['action'] == 'Kembali'){
-                                    header('Location:first.php');    
+                                    //header('Location:first.php');
+                                    echo '<meta http-equiv="refresh" content="0; URL=first.php">';
                                 }
                                 //Check Diagnose
                                 else if($_GET['action'] == 'Cek'){
