@@ -22,7 +22,7 @@
         </div>
 
         <div class="w3-container w3-display-container w3-red w3-padding">
-            <a href="">Cek Histogram</a>
+            <a href="Histogram.php">Cek Histogram</a>
         </div>
 
         <div class="w3-content w3-center w3-large">
@@ -37,13 +37,12 @@
                                 $number = sqlsrv_fetch_array($num_of_gejala,  SQLSRV_FETCH_NUMERIC);
                     
                                 //Mempartisi jumlah gejala menjadi 3
-                                $part = $number[0];
-                                $part1 =  floor($number[0] / 3);
-                                $part2 = $number[0] - ($part1+1);
-                                $part3 = $number[0] ;
+                               // $part1 =  floor($number[0] / 3);
+                                //$part2 = $number[0] - ($part1+1);
+                                //$part3 = $number[0] ;
                                 $j = 0;
 
-                               
+                               $part = $number[0];
                                
                                 
                                 //query nama gejala
@@ -66,18 +65,19 @@
                         <select name="gej1" id="gj1" style="width:60% ">
                             <?php
                                  //Populate select
-                                for($j = 0; $j < 31; $j++){
+                                for($j = 0; $j < $part; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 }
                               
                             ?>
+                          
                         </select>
                         <p>
                         Gejala 2 :
                         <select name="gej2" id="gj2" style="width:60% ">
                              <?php
                                 //Populate select
-                                for($j = 0; $j < 31; $j++){
+                                for($j = 0; $j < $part; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 }
                             ?>
@@ -87,7 +87,7 @@
                         <select name="gej3" id="gj3" style="width:60% ">
                             <?php
                                 //Populate select
-                                for($j = 0; $j < 31; $j++){
+                                for($j = 0; $j < $part; $j++){
                                         echo '<option value="'.$row1[$j].'">'.$row1[$j].'</option>';
                                 } 
                             ?>
@@ -97,13 +97,12 @@
                             <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" value="Kembali">
                             <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" value="Cek">
                         </p>
- <?php 
+                        <?php 
                             if(isset($_GET['action'])){
         
                                 //Go back one page
                                 if($_GET['action'] == 'Kembali'){
-                                    //header('Location:first.php');
-                                    echo '<meta http-equiv="refresh" content="0; URL=first.php">';
+                                    echo '<meta http-equiv="refresh" content="0; URL=first.php">';    
                                 }
                                 //Check Diagnose
                                 else if($_GET['action'] == 'Cek'){
@@ -120,6 +119,7 @@
                                     }
 
                                     $idCheckUp = sqlsrv_get_field($query_idCheckUp,0);
+                                    
                                     //Mendapatkan id pasien
                                     $nama = $_SESSION['namaPasien'];
                                     $sql_idPasien = "SELECT idPasien FROM Pasien WHERE namaPasien = '$nama' ";
@@ -169,7 +169,7 @@
                                    //Memasukkan id gejala kedalam array
                                     $idGejala = array();
                                     array_push($idGejala, $idGejala1,$idGejala2,$idGejala3);
-
+                                    
 
 
                                     //Memasukkan ke dalam table record
@@ -177,11 +177,12 @@
 
                                     for($i = 0; $i < $length; $i++){
                                         $sql_insertRecord  = "exec insRoundRobinGejala $idCheckUp, $idGejala[$i] ";
+                                        //echo "$sql_insertRecord";
                                         sqlsrv_query($conn, $sql_insertRecord);
                                     }
 
                                     //Mencari penyakit yang dialami pasien
-                                    $sql_diagnos = "exec Diag $idCheckUp";
+                                    
                                     $query_diagnosis = sqlsrv_query($conn, $sql_diagnos);
                                     if( $query_diagnosis === false) {
                                         echo "This aint it chief";
@@ -193,7 +194,7 @@
                                                <th> Penyakit </th>
                                          </tr>";
             
-                                    while( $row = sqlsrv_fetch_array(  $query_diagnosis, SQLSRV_FETCH_NUMERIC) ) {
+                                    while( $row = sqlsrv_fetch_array($query_diagnosis, SQLSRV_FETCH_NUMERIC)) {
                                         //array_push($penyakit, $row[0]);
                                          echo "<tr>";
                                          echo '<td>'.$row[0].'</td>';
