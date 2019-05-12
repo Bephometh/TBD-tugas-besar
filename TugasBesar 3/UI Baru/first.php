@@ -22,7 +22,7 @@
         </div>
 
         <div class="w3-container w3-display-container w3-red w3-padding">
-            <a href="Histogram.php">Cek Histogram</a>
+            <a href="Histogram.php">Cek Histogram Penyakit</a>
         </div>
 
         <div class="w3-content w3-center w3-large">
@@ -105,24 +105,12 @@
                                 }
                                 echo "<table>";
                                     echo "<tr>
-                                               <th> Tanggal  </th>
                                                <th> Penyakit </th>
                                          </tr>";
                                 while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_ASSOC)){
-                                    if($penyakit['namaPenyakit'] == NULL && $penyakit['Tanggal'] == null){
-
-                                    }
-                                    else{
-                                        //var_dump($penyakit['Tanggal']);
-                                        $var = 'date';
-                                        //$date = date_create($penyakit['Tanggal']->$var);
-                                        $result  = date_format($penyakit['Tanggal'], 'Y-m-d');
-                                        echo "<tr>";
-                                        echo '<td>'.$result.'</td>';
-                                        echo '<td>'.$penyakit['namaPenyakit'].'</td>';
-                                        echo "</tr>";
-                                    }
-
+                                    echo "<tr>";
+                                    echo '<td>'.$penyakit[0].'</td>';
+                                    echo "</tr>";
                                 }
                                 echo "</table>";
                             }

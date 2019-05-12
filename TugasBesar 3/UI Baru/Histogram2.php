@@ -6,7 +6,7 @@
     session_start();
 ?>
     <head>
-        <title>Laporan Gejala</title>
+        <title>Laporan Penyakit</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
         <style>
             table, th, td {
@@ -22,8 +22,36 @@
         
         <div class="w3-container w3-display-container w3-red w3-padding">
             <a href="first.php">Pasien</a>
-            <a class="w3-padding" href="Histogram2.php">Cek Histogram Sesuai Tanggal</a>
+            <a class="w3-padding" href="Histogram.php">Cek Histogram Penyakit</a>
         </div>
+
+        <form class="w3-container" method="GET" action="Histogram2.php">
+            <p>Tanggal Awal : <input type="date" name="tanggalAwal"></p>
+            <p>Tanggal Akhir : <input type="date" name="tanggalAkhir"></p>
+            <input onclick="btnCek()" class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="cekHasil" value="Cek">
+        </form>
+        
+        <?php
+            if (isset($_GET['cekHasil'])){
+                //ambil tgl dari input format Y-m-d
+                $tglAwal = $_GET['tanggalAwal'];
+                $tglAkhir = $_GET['tanggalAkhir'];
+
+                //echo tgl
+                echo "Tanggal Awal:".$tglAwal."<p>"."Tanggal Akhir:".$tglAkhir;
+                $sql_histo3 = "exec Histogr '$tglAwal','$tglAkhir'";
+                $hasil_histo3 = sqlsrv_query($conn,$sql_histo3);
+                //hasil nya ga keluar, pdhl parameter exec udh sama
+                //tipe data di sql "DateTime"
+                //tipe data di html "date"
+                $hasil = [];
+                while($row = sqlsrv_fetch_array($hasil_histo3, SQLSRV_FETCH_ASSOC)){
+                    $hasil[] = $row;
+                    echo $row[0]."<br>";
+                }
+                
+            }
+        ?>
 
         <!--buat graph-->
         <div class="w3-show w3-content" id="chartContainer" style="height: 370px; width: 100%; margin-top:2%;"></div>
@@ -31,20 +59,9 @@
     </body>
 </html>
 
-    <?php
-        //histogram4
-        $sql_histo4 = "exec histo4";
-        $hasil_histo4 = sqlsrv_query($conn,$sql_histo4);
-        $hasil = [];
-        while($row = sqlsrv_fetch_array($hasil_histo4, SQLSRV_FETCH_NUMERIC)){
-            $hasil[] = $row;
-            echo $row[0].",";
-
-        }
-    ?>
+    
 
     <script type="text/javascript">
-        
 
         window.onload = function () {
         
@@ -52,7 +69,7 @@
             theme: "light1", // "light2", "dark1", "dark2"
             animationEnabled: false, // change to true		
             title:{
-                text: "Gejala Yang Muncul"
+                text: "Banyak Penyakit Pada Tanggal Tertentu"
             },
             data: [
             {
@@ -72,14 +89,9 @@
         chart.render();
         
         }
-    </script>
-        
-   
-    <script>
-        //Fungsi untuk histogram banyak penyakit
-        function btnHisto4(){
-            var x = document.getElementById("chartContainer");
+
+        function btnCek(){
+            var x = document.getElementById(chartContainer);
             x.className = "w3-show";
         }
-
     </script>
