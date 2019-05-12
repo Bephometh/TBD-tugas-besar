@@ -105,12 +105,24 @@
                                 }
                                 echo "<table>";
                                     echo "<tr>
+                                               <th> Tanggal  </th>
                                                <th> Penyakit </th>
                                          </tr>";
                                 while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_ASSOC)){
-                                    echo "<tr>";
-                                    echo '<td>'.$penyakit[0].'</td>';
-                                    echo "</tr>";
+                                    if($penyakit['namaPenyakit'] == NULL && $penyakit['Tanggal'] == null){
+
+                                    }
+                                    else{
+                                        //var_dump($penyakit['Tanggal']);
+                                        $var = 'date';
+                                        //$date = date_create($penyakit['Tanggal']->$var);
+                                        $result  = date_format($penyakit['Tanggal'], 'Y-m-d');
+                                        echo "<tr>";
+                                        echo '<td>'.$result.'</td>';
+                                        echo '<td>'.$penyakit['namaPenyakit'].'</td>';
+                                        echo "</tr>";
+                                    }
+
                                 }
                                 echo "</table>";
                             }

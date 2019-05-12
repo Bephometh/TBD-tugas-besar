@@ -20,6 +20,11 @@ AS
 		namaPenyakit VARCHAR (125)
 	)
 
+	--Table untuk menyimpan Penyakit
+	CREATE TABLE #penyakit(
+		namaPenyakit VARCHAR(125)
+	)
+
 	--Mencari ID pasien
 	SELECT
 		@id = Pasien.idPasien
@@ -52,29 +57,38 @@ AS
 	BEGIN
 		
 		--Memasukan ke table sejarah penyakit
-		--INSERT INTO #historyPenyakit 
-		SELECT DISTINCT
-			@namaPenyakit = namaPenyakit
+		INSERT INTO #historyPenyakit (namaPenyakit)
+		SELECT DISTINCT namaPenyakit
 		FROM
 			dbo.diagFunct(@idCheckUp)
-
-		INSERT INTO #historyPenyakit (namaPenyakit)VALUES (@namaPenyakit)
 		
+		--Cursor untuk memasukkan tanggal
+		DECLARE tanggal CURSOR
+		FOR
+			SELECT namaPenyakit
+			FROM #historyPenyakit
 		
-		SELECT
-			@tanggal = tanggal
-		FROM
-			#checkUpHistory 
-		WHERE
-			idCheckUp = @idCheckUp
+		OPEN tanggal
+		FETCH NEXT FROM tanggal INTO @namaPenyakit
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+			SELECT
+				@tanggal = tanggal
+			FROM
+				#checkUpHistory 
+			WHERE
+				idCheckUp = @idCheckUp
 
-		UPDATE #historyPenyakit
-		SET Tanggal = @tanggal
-		WHERE namaPenyakit = @namaPenyakit
+			UPDATE #historyPenyakit
+			SET Tanggal = @tanggal
+			WHERE namaPenyakit = @namaPenyakit
+
+			FETCH NEXT FROM tanggal INTO @namaPenyakit
+		END
+
+		CLOSE tanggal
 
 		FETCH NEXT FROM sejarah INTO @idCheckUp
-
-
 	END
 
 	CLOSE sejarah
@@ -82,7 +96,7 @@ AS
 
 	--Menampilkan sejarah penyakit
 	SELECT DISTINCT
-		Tanggal, #historyPenyakit.namaPenyakit 
+		#historyPenyakit.Tanggal, #historyPenyakit.namaPenyakit 
 	FROM
 		#historyPenyakit
 	
