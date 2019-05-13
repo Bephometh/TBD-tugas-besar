@@ -1,5 +1,6 @@
-CREATE PROCEDURE histo4
+ALTER PROCEDURE histo4
 AS
+SET NOCOUNT ON
 DECLARE @tblHisto4 TABLE(
 	namaGejala varchar(50),
 	jumlahGejala int

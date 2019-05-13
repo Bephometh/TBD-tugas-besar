@@ -1,7 +1,8 @@
 CREATE PROCEDURE Histogr
-@date1 DATETIME,
-@date2 DATETIME
+@date1 DATE, 
+@date2 DATE
 AS
+SET NOCOUNT ON 
 DECLARE @tblHisto TABLE(
 	namaPenyakit VARCHAR(50),
 	kemunculan int
@@ -19,4 +20,4 @@ GROUP BY Penyakit.namaDiagnosis,Penyakit.idPenyakit
 SELECT namaPenyakit,kemunculan
 FROM @tblHisto
 
-exec histogr '2019-02-05' , '2019-02-11'
+exec Histogr '2019-05-08' , '2019-05-08'
