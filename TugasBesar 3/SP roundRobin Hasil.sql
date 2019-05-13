@@ -1,9 +1,10 @@
-﻿CREATE PROCEDURE insRoundRobinHasil
+﻿ALTER PROCEDURE insRoundRobinHasil
 	@idCheckUp INT,
 	@idPasien INT
 AS
 	
 	DECLARE 
+		@barisMax INT,
 		@baris INT -- baris yang harus diisi
 
 	--Table nama2 pasien untuk diagregasi
@@ -18,6 +19,11 @@ AS
 		Config
 
 
+	--Mencari baris maksimal
+	SELECT
+		@barisMax = Config.totalBaris
+	FROM
+		Config
 
 
 	--Memasukkan data ke Table
@@ -26,7 +32,7 @@ AS
 	WHERE Baris = @baris
 
 	--Update baris pada config
-	IF(@baris = 60)
+	IF(@baris = @barisMax)
 	BEGIN
 		SET @baris = 1
 	END

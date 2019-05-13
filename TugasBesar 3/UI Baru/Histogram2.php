@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <html>
 <?php
     include ("../connection.php");
@@ -24,13 +24,20 @@
         <div class="w3-container w3-display-container w3-red w3-padding">
             <a href="first.php">Pasien</a>
             <a class="w3-padding" href="Histogram.php">Cek Histogram Penyakit</a>
+            <a class="w3-padding" href="BanyakPenyakit.php">Cek Penyakit Yang Sering Muncul</a>
         </div>
 
-        <form class="w3-container" method="GET" action="Histogram2.php">
-            <p>Tanggal Awal : <input type="date" name="tanggalAwal"></p>
-            <p>Tanggal Akhir : <input type="date" name="tanggalAkhir"></p>
-            <input onclick="btnCek()" class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="cekHasil" value="Cek">
+        <form class="w3-container"  method="GET" action="Histogram2.php">
+            
+                    <p>Mencari Penyakit Pada Tanggal Tertentu</p>
+                    <p>Tanggal Awal : <input type="date" name="tanggalAwal"></p>
+                    <p>Tanggal Akhir : <input type="date" name="tanggalAkhir"></p>
+                    <input onclick="btnCek()" class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="cekHasil" value="Cek">  
+
         </form>
+
+        
+       
         
         <?php
             if (isset($_GET['cekHasil'])){
@@ -55,7 +62,7 @@
                     //echo $row[0]."<br>";
                     //echo $row[1];
                 }
-                
+
             }
         ?>
 
@@ -87,7 +94,7 @@
                         "label" => $data[0],
                         "y"=> $data[1]
                     ];
-                }, $hasil)));?>
+                                }, $hasil)));?>
                 
             }
             ]
@@ -100,4 +107,5 @@
             var x = document.getElementById(chartContainer);
             x.className = "w3-show";
         }
+
     </script>

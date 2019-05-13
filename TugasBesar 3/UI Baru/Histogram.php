@@ -24,6 +24,7 @@
         <div class="w3-container w3-display-container w3-red w3-padding">
             <a href="first.php">Pasien</a>
             <a class="w3-padding" href="Histogram2.php">Cek Histogram Sesuai Tanggal</a>
+            <a class="w3-padding" href="BanyakPenyakit.php">Cek Penyakit Yang Sering Muncul</a>
         </div>
 
         <!--buat graph-->

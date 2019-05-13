@@ -4,6 +4,7 @@ ALTER PROCEDURE insRoundRobinGejala
 AS
 	
 	DECLARE 
+		@barisMax INT, -- Mendapatkan Baris maksimal dari table config
 		@baris INT, -- baris yang harus diisi
 		@id INT -- menyimpan id checkup untuk agregasi
 
@@ -18,6 +19,11 @@ AS
 	FROM
 		Config
 
+	--Mencari Baris maksimal
+	SELECT
+		@barisMax = totalBaris
+	FROM
+		Config
 
 
 
@@ -27,7 +33,7 @@ AS
 	WHERE Baris = @baris
 
 	--Update baris pada config
-	IF(@baris = 60)
+	IF(@baris = @barisMax)
 	BEGIN
 		SET @baris = 1
 		--Mencari id2 check up

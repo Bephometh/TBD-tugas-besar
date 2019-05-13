@@ -27,13 +27,28 @@ Tanggal dateTime NOT NULL
 );
 
 CREATE TABLE Record (
-idCheckUp int NOT NULL ,Foreign Key (idCheckUp) REFERENCES CheckUp(idCheckUp),
-idGejala int NOT NULL , Foreign Key (idGejala) REFERENCES Gejala (idGejala)
+idCheckUp int  ,Foreign Key (idCheckUp) REFERENCES CheckUp(idCheckUp),
+idGejala int  , Foreign Key (idGejala) REFERENCES Gejala (idGejala),
+Baris INT
 );
 
 CREATE TABLE Hasil(
-idPasien int NOT NULL ,Foreign Key (idPasien) REFERENCES Pasien(idPasien),
-idCheckUp int NOT NULL ,Foreign Key (idCheckUp) REFERENCES CheckUp(idCheckUp)
+idPasien int ,Foreign Key (idPasien) REFERENCES Pasien(idPasien),
+idCheckUp int  ,Foreign Key (idCheckUp) REFERENCES CheckUp(idCheckUp),
+Baris INT
 );
+
+CREATE TABLE Config(
+	baris INT,
+	barisHasil INT,
+	totalBaris INT
+)
+
+CREATE TABLE AgregasiPenyakit(
+	Tanggal DATE,
+	Penakit VARCHAR(258),
+	Pasien VARCHAR (258) NOT NULL,
+	idCheckUp INT
+)
 
 

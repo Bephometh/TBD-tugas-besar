@@ -104,6 +104,7 @@
                                 if( $query_sejarah === false) {
                                     echo "This aint it chief";
                                 }
+                                echo "<p>";
                                 echo "<table>";
                                     echo "<tr>
                                                 <th> Tanggal </th>
