@@ -1,4 +1,3 @@
-
 Insert into Diagnosis values 
 (1,1),
 (2,1),

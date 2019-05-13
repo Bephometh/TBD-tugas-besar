@@ -22,7 +22,7 @@
         </div>
 
         <div class="w3-container w3-display-container w3-red w3-padding">
-            <a href="">Cek Histogram</a>
+            <a href="Histogram.php">Cek Histogram Penyakit</a>
         </div>
 
         <div class="w3-content w3-center w3-large">
@@ -38,7 +38,7 @@
                         <p>
                         <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonDaftar" value="Daftar">
                         <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonLanjut" value="Lanjut">
-                        <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonLanjut" value="Cek Sejarah" />
+                        <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonCekSejarah" value="Cek Sejarah" />
 
                             <?php
 
@@ -46,6 +46,7 @@
                             if($_GET['action'] == 'Daftar'){
                                 //insert datanya
                                 if(empty($_GET['namaPasien'])){
+                                    echo "<p>";
                                     echo"Masukkan nama lengkap";
                                 }
                                 else{
@@ -56,11 +57,13 @@
                                     if($try){
                                         $check_row = sqlsrv_has_rows($try);
                                         if($check_row === true){
+                                            echo '<p>';
                                             echo 'Sudah terdaftar';
                                         }
                                         else{
                                              $insertPasien = "INSERT INTO Pasien (namaPasien) VALUES ('$namaBaru')";
                                              $in = sqlsrv_query($conn,$insertPasien);
+                                             echo '<p>';
                                              echo"Berhasil Terdaftar";
                                         }
                                     }
@@ -84,6 +87,7 @@
                                             header("Location:Second.php");
                                         }
                                         else{
+                                            echo '<p>';
                                              echo"Belum Terdaftar";
                                         }
                                     }
@@ -95,6 +99,7 @@
                                 //Mencari sejarah penyakit pasien
                                 $sql_sejarah = "exec Sejarah '$name'";
                                 $query_sejarah = sqlsrv_query($conn, $sql_sejarah);
+                                //echo "$query_sejarah";
                                 if( $query_sejarah === false) {
                                     echo "This aint it chief";
                                 }
@@ -102,15 +107,12 @@
                                     echo "<tr>
                                                <th> Penyakit </th>
                                          </tr>";
-                                while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_NUMERIC)){
+                                while($penyakit = sqlsrv_fetch_array($query_sejarah,SQLSRV_FETCH_ASSOC)){
                                     echo "<tr>";
                                     echo '<td>'.$penyakit[0].'</td>';
                                     echo "</tr>";
                                 }
-
                                 echo "</table>";
-
-
                             }
                          }
 
@@ -121,22 +123,5 @@
                 </fieldset>
             </form>
         </div>
-
-        <div class="w3-container w3-padding w3-center">
-            <p>buat nampilin pasien jika belum terdaftar</p>
-            <!--
-                buat nampilin kalau pasien belum terdaftar
-            -->
-        </div>
     </body>
 </html>
-
-<!--
-<php>
-    function btnDL(){
-        // 1.cek nama pasien sudah ada di DB / belum
-        // 2. jika ada lanjutkan ke second.html
-        // 3. jika tidak ada tampilkan "Nama tidak ditemukan, Daftarkan terlebih dahulu"
-    }
-</php>
--->

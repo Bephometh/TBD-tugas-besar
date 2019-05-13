@@ -1,4 +1,4 @@
-Insert into gejala values
+Insert into Gejala values
 ('Tarikan dinding dada ke dalam'),
 ('Saturasi Oksigen <90%'),
 ('Nafas cepat'),
@@ -50,6 +50,4 @@ Insert into Diagnosis values
 (1,2),
 (1,3),
 (2,4),
-(2,5),
-
-delete 
+(2,5)
