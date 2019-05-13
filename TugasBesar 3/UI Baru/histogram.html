@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
     <head>
         <title>Laporan</title>
@@ -55,4 +56,63 @@
     chart.render();
     
     }
+=======
+<html>
+    <head>
+        <title>Laporan</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="w3-container w3-display-container w3-black w3-padding">
+            <h1>Diagnosis</h1>
+        </div>
+        
+        <div class="w3-container w3-display-container w3-red w3-padding">
+            <a href="">Cek Histogram</a>
+        </div>
+
+        <div  class="w3-container w3-display-container">
+            <br>
+            <input class="w3-button w3-border w3-border-red w3-round-xlarge w3-hover-red" type="submit" name="action" id="buttonHisto1" value="Histo 1">
+        </div>
+        <br>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+    </body>
+</html>
+
+<script type="text/javascript">
+    window.onload = function () {
+    
+    var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "light1", // "light2", "dark1", "dark2"
+        animationEnabled: false, // change to true		
+        title:{
+            text: "Basic Column Chart"
+        },
+        data: [
+        {
+            // Change type to "bar", "area", "spline", "pie",etc.
+            
+            type: "column",
+            dataPoints: [
+                { label: "apple",  y: 10  },
+                { label: "orange", y: 15  },
+                { label: "banana", y: 25  },
+                { label: "mango",  y: 30  },
+                { label: "grape",  y: 28  }
+            ]
+        }
+        ]
+    });
+    chart.render();
+    
+    }
+>>>>>>> 7d740d97db00be25fb168aaaf1f1276766819d19
     </script>

@@ -4,13 +4,20 @@ ALTER PROCEDURE insRoundRobinGejala
 AS
 	
 	DECLARE 
-		@baris INT -- baris yang harus diisi
+		@baris INT, -- baris yang harus diisi
+		@id INT -- menyimpan id checkup untuk agregasi
+
+	--Table idCheckUO untuk diagregasi
+	CREATE TABLE #preparePasien(
+		idCheckUp INT
+	)
 
 	--Mencari baris yang harus diisi
 	SELECT
 		@baris = config.baris
 	FROM
 		Config
+
 
 
 
@@ -23,6 +30,31 @@ AS
 	IF(@baris = 60)
 	BEGIN
 		SET @baris = 1
+		--Mencari id2 check up
+		INSERT INTO #preparePasien
+		SELECT
+			Record.idCheckUp
+		FROM
+			Record
+
+		--Cursor untuk memasukan data ke table agregat
+		DECLARE Agregat CURSOR
+		FOR
+			SELECT
+				#preparePasien.idCheckUp
+			FROM
+				#preparePasien
+		OPEN Agregat
+		FETCH NEXT FROM Agregat INTO @id
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+			EXEC AgregatPenyakit @id
+
+			FETCH NEXT FROM Agregat INTO @id
+		END
+
+		CLOSE Agregat
+		
 	END
 	ELSE
 	BEGIN
