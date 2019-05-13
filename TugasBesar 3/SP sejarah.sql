@@ -63,13 +63,13 @@ AS
 			dbo.diagFunct(@idCheckUp)
 		
 		--Cursor untuk memasukkan tanggal
-		DECLARE tanggal CURSOR
+		DECLARE tanggals CURSOR
 		FOR
 			SELECT namaPenyakit
 			FROM #historyPenyakit
 		
-		OPEN tanggal
-		FETCH NEXT FROM tanggal INTO @namaPenyakit
+		OPEN tanggals
+		FETCH NEXT FROM tanggals INTO @namaPenyakit
 		WHILE(@@FETCH_STATUS = 0)
 		BEGIN
 			SELECT
@@ -83,10 +83,11 @@ AS
 			SET Tanggal = @tanggal
 			WHERE namaPenyakit = @namaPenyakit
 
-			FETCH NEXT FROM tanggal INTO @namaPenyakit
+			FETCH NEXT FROM tanggals INTO @namaPenyakit
 		END
 
-		CLOSE tanggal
+		CLOSE tanggals
+		DEALLOCATE tanggals
 
 		FETCH NEXT FROM sejarah INTO @idCheckUp
 	END

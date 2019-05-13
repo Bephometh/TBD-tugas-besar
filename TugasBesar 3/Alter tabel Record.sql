@@ -7,6 +7,8 @@ ALTER COLUMN idGejala INT NULL
 ALTER TABLE Record
 ADD	  Baris INT
 
+DELETE Record
+
 DELETE  Hasil
 
 ALTER TABLE Hasil
@@ -141,3 +143,8 @@ INSERT INTO Hasil(Baris) Values
 (58),
 (59),
 (60)
+
+exec Sejarah 'Audi'
+
+
+

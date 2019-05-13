@@ -1,7 +1,7 @@
 <?php
-$serverName = "MUHARODAN\SQLEXPRESS";
+$serverName = "(localdb)\MSSQLLocalDB";
 
-$connectionInfo = array("Database"=>"TBD");
+$connectionInfo = array("Database"=>"master");
 
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
 // print_r($conn);
